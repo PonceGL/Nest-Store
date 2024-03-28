@@ -39,3 +39,6 @@ postgres/
 
 # ENVIROMENT
 .env
+.env.development
+.env.production
+.env.qa
