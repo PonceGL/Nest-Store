@@ -9,6 +9,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
+import { ProductMessages } from '../interfaces/messages.type';
 
 @Injectable()
 export class ProductsService {
@@ -20,14 +21,14 @@ export class ProductsService {
   ) {}
 
   async create(createProductDto: CreateProductDto) {
-    const successMessage = 'This action adds a new product';
-
     try {
+      createProductDto.title = createProductDto.title.trim();
+
       const product = this.productRepository.create(createProductDto);
       await this.productRepository.save(product);
       return {
         success: true,
-        message: successMessage,
+        message: ProductMessages.CREATE_SUCCESS,
         product,
       };
     } catch (error) {

@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Product {
@@ -42,4 +42,17 @@ export class Product {
   // taxt
 
   // images
+
+  @BeforeInsert()
+  formatSlug() {
+    const formatSlug = (slug: string) =>
+      slug
+        .toLowerCase()
+        .trim()
+        .replace(/\//g, '')
+        .replace(/'/g, '')
+        .replace(/ /g, '-');
+
+    this.slug = formatSlug(this.slug ?? this.title);
+  }
 }
